@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
@@ -28,7 +29,14 @@ class OrderServiceTest {
     private final ProductRepository products = mock(ProductRepository.class);
     private final OrderRepository orders = mock(OrderRepository.class);
     private final OrderItemRepository items = mock(OrderItemRepository.class);
-    private final OrderService service = new OrderService(products, orders, items);
+    private final CustomerRepository customers = mock(CustomerRepository.class);
+    private final OrderService service = new OrderService(products, orders, items, customers);
+
+    @BeforeEach
+    void prepareCustomer() {
+        when(customers.findByFullNameAndAddressAndPhone("Ivan", "Moscow", "123"))
+                .thenReturn(Optional.of(new Customer("Ivan", "Moscow", "123")));
+    }
 
     @Test
     void savesItemsInOrderAndPrintsDiscountedTotal(CapturedOutput output) {

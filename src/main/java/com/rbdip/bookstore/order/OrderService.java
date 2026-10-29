@@ -20,9 +20,10 @@ public class OrderService {
     public OrderService(
             ProductRepository productRepository,
             OrderRepository orderRepository,
-            OrderItemRepository orderItemRepository) {
+            OrderItemRepository orderItemRepository,
+            CustomerRepository customerRepository) {
         this.productRepository = productRepository;
-        this.orderStorage = new OrderStorage(orderRepository, orderItemRepository);
+        this.orderStorage = new OrderStorage(orderRepository, orderItemRepository, customerRepository);
     }
 
     @Transactional
